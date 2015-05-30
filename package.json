@@ -1,23 +1,29 @@
 {
   "name": "videojs-cdn",
   "version": "1.0.0",
-  "description": "Video.js cdn",
+  "description": "The Video.js CDN",
   "repository": {
     "type": "git",
-    "url": "https://github.com/videojs/font.git"
+    "url": "https://github.com/videojs/cdn.git"
   },
   "keywords": [
-    "videojs"
+    "videojs", "cdn"
   ],
   "author": "",
   "license": "Apache 2",
   "bugs": {
-    "url": "https://github.com/videojs/font/issues"
+    "url": "https://github.com/videojs/cdn/issues"
   },
-  "homepage": "https://github.com/videojs/font",
+  "homepage": "https://github.com/videojs/cdn",
+  "dependencies": {
+    "video.js": "next",
+    "videojs-swf": "^4.7.0",
+    "videojs-font": "^1.0.0"
+  },
   "devDependencies": {
     "babel": "^5.4.7",
     "grunt": "^0.4.5",
+    "load-grunt-tasks": "^3.2.0",
     "time-grunt": "^1.2.1"
   }
 }
