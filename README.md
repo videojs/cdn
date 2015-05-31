@@ -1,4 +1,4 @@
-# Video.js CDN - http://vjs.zencdn.net/
+# Video.js CDN - vjs.zencdn.net
 
 ## Updating and publishing modules
 
@@ -9,6 +9,9 @@ npm install video.js
 npm install videojs-swf
 npm install videojs-font
 npm install videojs-ie8
+
+# You can also install specific versions to be published
+npm install video.js@5.0.1
 ```
 
 Then run the grunt task to publish that module
@@ -27,7 +30,11 @@ grunt publish:font
 grunt publish:ie8
 ```
 
-You can also update the major and minor auto-updating versions
+You can also update the major and minor auto-updating versions.
+
+- Minor versions should get all patch releases.
+- Major versions should get all minor and patch releases.
+- Patch releases should never be changed.
 
 ```bash
 # vjs.zencdn.net/5/video.js
