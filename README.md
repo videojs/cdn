@@ -1,5 +1,7 @@
 # Video.js CDN - vjs.zencdn.net
 
+Sponsored by [Fastly](https://www.fastly.com)!
+
 The Video.js CDN hosts updated copies of the various files
 needed for the player.
 
