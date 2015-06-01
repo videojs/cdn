@@ -39,8 +39,8 @@ grunt publish:ie8
 
 You can also update the major and minor url versions that are meant to auto-update.
 
-- Minor versions should get all patch releases
-- Major versions should get all minor and patch releases
+- Minor versions should get all patch releases (except prereleases)
+- Major versions should get all minor and patch releases (except prereleases)
 - Patch releases should never change
 
 ```bash
