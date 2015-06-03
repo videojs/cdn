@@ -14,7 +14,7 @@
   "esnext"   : true,
   "eqeqeq"   : true,
   "predef"   : [
-    "_V_",
+    "window",
     "goog",
     "console",
 

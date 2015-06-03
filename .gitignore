@@ -2,6 +2,8 @@
 logs
 *.log
 
+build/temp
+
 # Runtime data
 pids
 *.pid

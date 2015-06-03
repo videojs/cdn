@@ -5,22 +5,23 @@
  *
  * This code generates the GA tracking URL without requiring the GA javascript
  * library.
- *
- * @type {Image}
  */
-;(function(i,w,n,e,l,M){
-  l=w.location;
+;(function(i,w,n,e,M,l,v){
+  // Skip analytics if preferred
+  if (!w || w.HELP_IMPROVE_VIDEOJS === false) return;
 
-  // Google Analytics has a limit of 10 million hits per month for free accounts.
+  // Track 1 in 100 player loads for brower and device stats.
+  // Also Google Analytics has a limit of 10 million hits per month.
   // The Video.js CDN goes over this (by a lot) and they've asked us to stop.
-  if (M.random() > 0.01) {
-    return;
-  }
+  if (M.random() > 0.01) return;
+
+  l=w.location;
+  v=w.videojs || {};
 
   // Setting the source of an image will load the URL even without adding to dom
   // Using //www, still seems to work for https even though ssl.google is used by google
   i.src='//www.google-analytics.com/__utm.gif'
-    // Version
+    // GA Version
     +'?utmwv=5.4.2'
     // ID
     +'&utmac=UA-16505296-3' // 5.0+ CDN
@@ -58,6 +59,6 @@
     // Random number used as cache buster instead of utmn
     +'&utmcc=__utma%3D1.'+M.floor(M.random()*1e10)+'.1.1.1.1%3B'
     // Custom Var: vjsv is the variable name and 1.0.0 is the VJS version
-    +'&utme=8(vjsv)9(v0.0.0)'
+    +'&utme=8(vjsv*cdnv)9('+v.VERSION+'*'+v.CDN_VERSION+')'
   ;
 })(new Image(),window,navigator,encodeURIComponent,Math);
