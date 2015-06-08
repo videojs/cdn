@@ -7,6 +7,26 @@ needed for the player.
 
 See [videojs.com](http://www.videojs.com) for more info on using those files. The following instructions are for CDN admins.
 
+## Overview
+
+The CDN hosts copies of Video.js and its hosted dependencies.
+  - **video.js** - /version/video.js (includes most of dist)
+  - **videojs-swf** - /swf/version/video-js.swf
+  - **videojs-font** - /font/version/*
+  - **videojs-ie8** - /ie8/version/*
+
+For Video.js we also provide auto-updating major and minor versions.
+
+> NOTE: Only use the `/5/video.js` copy for testing. Do not use in production because the base CSS **will** change and other issues may occur. Similar to [jquery-latest](http://blog.jquery.com/2014/07/03/dont-use-jquery-latest-js/).
+
+```
+# Gets every patch and minor release for vidoe.js version 5
+vjs.zencdn.net/5/video.js
+
+# Gets every patch release for 5.[x]
+vjs.zencdn.net/5.[x]/video.js
+```
+
 ## Updating and publishing modules
 
 First update the specific module you want to publish a new version of.
@@ -33,15 +53,24 @@ grunt publish:swf
 # vjs.zencdn.net/font/1.x.x/VideoJS.ttf
 grunt publish:font
 
-# vjs.zencdn.net/ie8/videojs-ie8.js
+# vjs.zencdn.net/ie8/1.x.x/videojs-ie8.js
 grunt publish:ie8
 ```
 
-You can also update the major and minor url versions that are meant to auto-update.
+If this is the latest **non-prelease** version of Video.js,
+also run the `grunt publish:videojs:latest` command
+
+```
+# Update the major (/5/) and minor (/5.x/) CDN copies with the latest version
+# Also puts the package.json at the root of the CDN
+grunt publish:videojs:latest
+```
+
+You can also update the major and minor url versions manually.
 
 - Minor versions should get all patch releases (except prereleases)
 - Major versions should get all minor and patch releases (except prereleases)
-- Patch releases should never change
+- **Patch releases should never change, including hosted dependencies**
 
 ```bash
 # vjs.zencdn.net/5/video.js

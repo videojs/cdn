@@ -15,7 +15,7 @@
 
   videojs.setGlobalOptions({
     flash: {
-      swf: ACCESS_PROTOCOL+'vjs.zencdn.net/swf/'+videojs.SWF_VERSION+'/video-js.swf'
+      swf: ACCESS_PROTOCOL+'vjs.zencdn.net/swf/__SWF_VERSION__/video-js.swf'
     }
   });
 

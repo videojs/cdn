@@ -8,7 +8,7 @@ module.exports = function(grunt) {
       root: true,
       moduleDir: './node_modules/video.js',
       distDir: './build/temp/video.js',
-      src: ['video.js', 'video.min.js', 'video-js.css', 'video-js.min.css', 'lang/*']
+      src: ['video.js', 'video.min.js', 'video-js.css', 'video-js.min.css', 'lang/*', 'examples/*']
     },
     swf: {
       moduleDir: './node_modules/videojs-swf',
@@ -63,7 +63,7 @@ module.exports = function(grunt) {
       },
       cdnjs: {
         files: {
-          'build/temp/cdn.min.js': ['src/config.js', 'src/*']
+          'build/temp/cdn.min.js': ['src/config.js', 'src/analytics.js']
         }
       }
     }
@@ -110,6 +110,8 @@ module.exports = function(grunt) {
     config.fastly[`${name}_minor`] = getFastlyTaskConfig('minor');
     config.fastly[`${name}_major`] = getFastlyTaskConfig('major');
 
+    config.copy[`${name}_package`] = getPackageCopyTaskConfig();
+
     function getS3TaskConfig(releaseType='patch') {
       let versionDir = versionDirs[releaseType];
 
@@ -125,7 +127,7 @@ module.exports = function(grunt) {
         files: [
           {
             expand: true,
-            cwd: `${options.distDir}`,
+            cwd: options.distDir,
             src: options.src,
             dest: `${s3Dir}${versionDir}/`,
             params: { CacheControl: `public, max-age=${maxAge}` }
@@ -134,13 +136,21 @@ module.exports = function(grunt) {
       };
     }
 
-    function getFastlyTaskConfig(releaseType='patch'){
+    function getFastlyTaskConfig(releaseType='patch') {
       let versionDir = versionDirs[releaseType];
 
       return {
         options: {
           urls: [cdnDir + versionDir + '/*']
         }
+      };
+    }
+
+    function getPackageCopyTaskConfig() {
+      return {
+        files: [
+          { src:`${options.moduleDir}/package.json`, dest: options.distDir+'/' }
+        ]
       };
     }
   }
@@ -172,6 +182,18 @@ module.exports = function(grunt) {
     // Get version info
     var vjsPackage = grunt.file.readJSON('node_modules/video.js/package.json');
     var vjsVersion = vjsPackage.version;
+    var swfVersion = vjsPackage.dependencies['videojs-swf'];
+    var fontVersion = vjsPackage.dependencies['videojs-font'];
+
+    // Check for a dynamic version, e.g. '^1.0.0' or '~1.0.0'
+    // Hosted dependencies should be locked down to a specific version
+    if (!fontVersion || /^\d/.test(fontVersion) !== true) {
+      throw new Error('The video.js font version does not exist or is not locked down');
+    }
+
+    if (!swfVersion || /^\d/.test(swfVersion) !== true) {
+      throw new Error('The video.js swf version does not exist or is not locked down');
+    }
 
     // Set up the release type versions
     var cdnVersions = {};
@@ -186,6 +208,11 @@ module.exports = function(grunt) {
 
     // Update the cdn version and concat with video.js source
     cdnjs = cdnjs.replace('__CDN_VERSION__', cdnVersions[releaseType]);
+
+    // Update the swf version to build the swf CDN url
+    cdnjs = cdnjs.replace('__SWF_VERSION__', swfVersion);
+
+    // Concat the CDN js to the video.js copies
     vjs = vjs + '\n' + cdnjs;
     vjsMin = vjsMin + '\n' + cdnjs;
 
@@ -193,21 +220,15 @@ module.exports = function(grunt) {
     grunt.file.write('build/temp/video.js/video.js', vjs);
     grunt.file.write('build/temp/video.js/video.min.js', vjsMin);
 
-    // Get the font dependency version (need to move videojs-font to dependencies)
-    var fontVersion = vjsPackage.dependencies['videojs-font'] || vjsPackage.devDependencies['videojs-font'] || '1.1.0';
-
-    // Remove any ^ or ~ before the version
-    fontVersion = fontVersion.replace(/^[^\d]/, '');
-
-    // Use the /major.minor/ font url for auto updates
-    var fontCdnVersion = semver.major(fontVersion) + '.' + semver.minor(fontVersion);
-
     var css = grunt.file.read('build/temp/video.js/video-js.css');
     var cssMin = grunt.file.read('build/temp/video.js/video-js.min.css');
 
     // Replace the font urls with CDN font urls
-    css = css.replace(/font\//g, '../font/'+ fontCdnVersion +'/');
-    cssMin = cssMin.replace(/font\//g, '../font/'+ fontCdnVersion +'/');
+    // whether we're getting '../fonts/' or 'font/'
+    var re = /(\(.+?\/VideoJS)\./g;
+    var replaceWith = '(\'../font/'+fontVersion+'/VideoJS.';
+    css = css.replace(re, replaceWith);
+    cssMin = cssMin.replace(re, replaceWith);
 
     grunt.file.write('build/temp/video.js/video-js.css', css);
     grunt.file.write('build/temp/video.js/video-js.min.css', cssMin);
