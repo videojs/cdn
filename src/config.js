@@ -13,10 +13,6 @@
   // Set the swf location to the hosted swf of the correct version
   var ACCESS_PROTOCOL = ('https:' === window.location.protocol ? 'https://' : 'http://');
 
-  videojs.setGlobalOptions({
-    flash: {
-      swf: ACCESS_PROTOCOL+'vjs.zencdn.net/swf/__SWF_VERSION__/video-js.swf'
-    }
-  });
+  videojs.options.flash.swf = ACCESS_PROTOCOL+'vjs.zencdn.net/swf/__SWF_VERSION__/video-js.swf';
 
 })(window);
