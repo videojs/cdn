@@ -61,7 +61,7 @@ If this is the latest **non-prelease** version of Video.js,
 also run the `grunt publish:videojs:latest` command
 
 ```
-# Update the major (/5/) and minor (/5.x/) CDN copies with the latest version
+# Update the major (/5-unsafe/) and minor (/5.x/) CDN copies with the latest version
 # Also puts the package.json at the root of the CDN
 grunt publish:videojs:latest
 ```

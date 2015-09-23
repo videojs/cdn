@@ -7,6 +7,7 @@ module.exports = function(grunt) {
     videojs: {
       root: true,
       moduleDir: './node_modules/video.js',
+      // We're modifying video.js first so pull that copy
       distDir: './build/temp/video.js',
       src: ['video.js', 'video.min.js', 'video-js.css', 'video-js.min.css', 'lang/*', 'examples/*']
     },
@@ -37,12 +38,37 @@ module.exports = function(grunt) {
         bucket: process.env.VJS_S3_BUCKET,
         access: 'public-read',
         uploadConcurrency: 5
+      },
+      package: {
+        files: [
+          {
+            expand: true,
+            cwd: './node_modules/video.js',
+            src: 'package.json',
+            dest: '/vjs/',
+            params: { CacheControl: `public, max-age=2628000` }
+          }
+        ]
+      },
+      // Used this to kill /5/ in favor of /5-unsafe/
+      del_v5: {
+        files: [
+          {
+            dest: 'vjs/5/',
+            action: 'delete'
+          }
+        ]
       }
     },
     fastly: {
       options: {
         key: process.env.VJS_FASTLY_API_KEY,
         host: 'vjs.zencdn.net'
+      },
+      package: {
+        options: {
+          urls: ['/package.json']
+        }
       }
     },
     clean: {
@@ -97,7 +123,8 @@ module.exports = function(grunt) {
     }
 
     let versionDirs = {
-      major: semver.major(version),
+      // Add unsafe to major, because it will break on you, seriously
+      major: semver.major(version) + '-unsafe',
       minor: semver.major(version) + '.' +semver.minor(version),
       patch: version
     };
@@ -171,6 +198,18 @@ module.exports = function(grunt) {
 
     if (moduleName === 'videojs') {
       grunt.task.run('prepare_videojs');
+
+      if (releaseType === 'latest') {
+        // Upload all video.js version types
+        ['patch', 'minor', 'major'].forEach(function(type){
+            grunt.task.run([`aws_s3:${moduleName}_${type}`, `fastly:${moduleName}_${type}`]);
+        });
+
+        // Upload the package.json file to the root of the cdn
+        grunt.task.run([`aws_s3:package`, `fastly:package`]);
+
+        return;
+      }
     }
 
     grunt.task.run([`aws_s3:${moduleName}_${releaseType}`, `fastly:${moduleName}_${releaseType}`]);
