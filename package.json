@@ -17,7 +17,7 @@
   },
   "homepage": "https://github.com/videojs/cdn",
   "dependencies": {
-    "video.js": "next",
+    "video.js": "^5.0.0",
     "videojs-font": "^1.0.0",
     "videojs-ie8": "^1.0.0",
     "videojs-swf": "^4.7.0"
