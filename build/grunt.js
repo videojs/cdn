@@ -264,8 +264,8 @@ module.exports = function(grunt) {
 
     // Replace the font urls with CDN font urls
     // whether we're getting '../fonts/' or 'font/'
-    var re = /(\(.+?\/VideoJS)\./g;
-    var replaceWith = '(\'../font/'+fontVersion+'/VideoJS.';
+    var re = /font\/VideoJS\./g;
+    var replaceWith = '../font/'+fontVersion+'/VideoJS.';
     css = css.replace(re, replaceWith);
     cssMin = cssMin.replace(re, replaceWith);
 
