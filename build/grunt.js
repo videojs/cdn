@@ -25,6 +25,11 @@ module.exports = function(grunt) {
       moduleDir: './node_modules/videojs-ie8',
       distDir: './node_modules/videojs-ie8/dist',
       src: ['**']
+    },
+    vttjs: {
+      moduleDir: './node_modules/videojs-vtt.js',
+      distDir: './node_modules/videojs-vtt.js/dist',
+      src: ['**']
     }
   };
 
