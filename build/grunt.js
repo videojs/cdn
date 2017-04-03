@@ -235,7 +235,8 @@ module.exports = function(grunt) {
       throw new Error('The video.js font version does not exist or is not locked down');
     }
 
-    if (!swfVersion || /^\d/.test(swfVersion) !== true) {
+    if (semver.lt(vjsVersion, '6.0.0') &&
+        (!swfVersion || /^\d/.test(swfVersion) !== true)) {
       throw new Error('The video.js swf version does not exist or is not locked down');
     }
 
