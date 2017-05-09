@@ -38,6 +38,8 @@ module.exports = function(grunt) {
     pkg: grunt.file.readJSON('./package.json'),
     aws_s3: {
       options: {
+        // add --dry-run to not upload to s3
+        debug: grunt.option('dry-run'),
         accessKeyId: process.env.VJS_S3_KEY,
         secretAccessKey: process.env.VJS_S3_SECRET,
         bucket: process.env.VJS_S3_BUCKET,
