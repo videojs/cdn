@@ -33,6 +33,16 @@ module.exports = function(grunt) {
     }
   };
 
+  var accessKeyId = process.env.VJS_S3_KEY;
+  var secretAccessKey = process.env.VJS_S3_SECRET;
+  var bucket = process.env.VJS_S3_BUCKET;
+
+  if (grunt.option('dry-run')) {
+    accessKeyId = "access-key-id"
+    secretAccessKey = "secret-access-key"
+    bucket = "secret-bucket"
+  }
+
   // Grunt config
   let config = {
     pkg: grunt.file.readJSON('./package.json'),
@@ -40,9 +50,9 @@ module.exports = function(grunt) {
       options: {
         // add --dry-run to not upload to s3
         debug: grunt.option('dry-run'),
-        accessKeyId: process.env.VJS_S3_KEY,
-        secretAccessKey: process.env.VJS_S3_SECRET,
-        bucket: process.env.VJS_S3_BUCKET,
+        accessKeyId: accessKeyId,
+        secretAccessKey: secretAccessKey,
+        bucket: bucket,
         access: 'public-read',
         uploadConcurrency: 5
       },
