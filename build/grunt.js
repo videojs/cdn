@@ -106,6 +106,7 @@ module.exports = function(grunt) {
       },
       cdnjs: {
         files: {
+          'build/temp/cdn5.min.js': ['src/config-5.js', 'src/analytics.js'],
           'build/temp/cdn.min.js': ['src/config.js', 'src/analytics.js']
         }
       }
@@ -261,7 +262,16 @@ module.exports = function(grunt) {
     // Get the source
     var vjs = grunt.file.read('build/temp/video.js/video.js');
     var vjsMin = grunt.file.read('build/temp/video.js/video.min.js');
-    var cdnjs = grunt.file.read('build/temp/cdn.min.js');
+
+    var cdnjsPath;
+
+    if (semver.lt(vjsVersion, '6.0.0')) {
+      cdnjsPath = 'build/temp/cdn5.min.js';
+    } else {
+      cdnjsPath = 'build/temp/cdn.min.js';
+    }
+
+    var cdnjs = grunt.file.read(cdnjsPath);
 
     // Update the cdn version and concat with video.js source
     cdnjs = cdnjs.replace('__CDN_VERSION__', cdnVersions[releaseType]);
