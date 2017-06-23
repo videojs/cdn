@@ -106,8 +106,8 @@ module.exports = function(grunt) {
       },
       cdnjs: {
         files: {
-          'build/temp/cdn5.min.js': ['src/config-5.js', 'src/analytics.js'],
-          'build/temp/cdn.min.js': ['src/config.js', 'src/analytics.js']
+          'build/temp/cdn5.min.js': ['src/config-5.js'],
+          'build/temp/cdn.min.js': ['src/config.js']
         }
       }
     }
