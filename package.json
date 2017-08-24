@@ -20,7 +20,7 @@
     "video.js": "^5.0.0",
     "videojs-font": "^1.0.0",
     "videojs-ie8": "^1.0.0",
-    "videojs-swf": "^4.7.0"
+    "videojs-swf": "^4.7.0",
     "videojs-vtt.js": "^0.12.3"
   },
   "devDependencies": {
