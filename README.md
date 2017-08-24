@@ -1,5 +1,7 @@
 # Video.js CDN - vjs.zencdn.net
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/videojs/cdn.svg)](https://greenkeeper.io/)
+
 Sponsored by [Fastly](https://www.fastly.com)!
 
 The Video.js CDN hosts updated copies of the various files
