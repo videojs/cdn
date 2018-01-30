@@ -123,7 +123,12 @@ module.exports = function(grunt) {
   });
 
   function addPublishTasks(name, options={}){
-    let modulePkg = grunt.file.readJSON(`${options.moduleDir}/package.json`);
+    const packagePath = `${options.moduleDir}/package.json`;
+    if (!grunt.file.exists(packagePath)) {
+      return;
+    }
+
+    let modulePkg = grunt.file.readJSON(packagePath);
     let version = modulePkg.version;
 
     if (!version) {
