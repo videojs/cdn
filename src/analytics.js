@@ -10,6 +10,7 @@
   // Skip analytics if preferred
   if (!w || w.HELP_IMPROVE_VIDEOJS === false) return;
 
+  // Respect Do Not Track in its various forms
   if (n && n.doNotTrack && n.doNotTrack === '1') return;
   if (n && n.msDoNotTrack && n.msDoNotTrack === '1') return;
   if (w.doNotTrack && w.doNotTrack === '1') return;
