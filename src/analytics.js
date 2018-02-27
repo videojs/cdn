@@ -10,6 +10,11 @@
   // Skip analytics if preferred
   if (!w || w.HELP_IMPROVE_VIDEOJS === false) return;
 
+  // Respect Do Not Track in its various forms
+  if (n && n.doNotTrack && n.doNotTrack === '1') return;
+  if (n && n.msDoNotTrack && n.msDoNotTrack === '1') return;
+  if (w.doNotTrack && w.doNotTrack === '1') return;
+
   // Track 1 in 100 player loads for brower and device stats.
   // Also Google Analytics has a limit of 10 million hits per month.
   // The Video.js CDN goes over this (by a lot) and they've asked us to stop.
