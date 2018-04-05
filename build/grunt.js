@@ -107,7 +107,8 @@ module.exports = function(grunt) {
       cdnjs: {
         files: {
           'build/temp/cdn5.min.js': ['src/config-5.js', 'src/analytics.js'],
-          'build/temp/cdn.min.js': ['src/config.js', 'src/analytics.js']
+          'build/temp/cdn6.min.js': ['src/config.js', 'src/analytics.js'],
+          'build/temp/cdn.min.js': ['src/config.js']
         }
       }
     }
@@ -272,6 +273,8 @@ module.exports = function(grunt) {
 
     if (semver.lt(vjsVersion, '6.0.0')) {
       cdnjsPath = 'build/temp/cdn5.min.js';
+    } else if (semver.lt(vjsVersion, '7.0.0')) {
+      cdnjsPath = 'build/temp/cdn6.min.js';
     } else {
       cdnjsPath = 'build/temp/cdn.min.js';
     }
