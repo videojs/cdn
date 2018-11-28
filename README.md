@@ -20,7 +20,7 @@ For Video.js we also provide auto-updating major and minor versions.
 > NOTE: Only use the `/5/video.js` copy for testing. Do not use in production because the base CSS **will** change and other issues may occur. Similar to [jquery-latest](http://blog.jquery.com/2014/07/03/dont-use-jquery-latest-js/).
 
 ```
-# Gets every patch and minor release for vidoe.js version 5
+# Gets every patch and minor release for video.js version 5
 vjs.zencdn.net/5/video.js
 
 # Gets every patch release for 5.[x]
@@ -57,7 +57,7 @@ grunt publish:font
 grunt publish:ie8
 ```
 
-If this is the latest **non-prelease** version of Video.js,
+If this is the latest **non-release** version of Video.js,
 also run the `grunt publish:videojs:latest` command
 
 ```
