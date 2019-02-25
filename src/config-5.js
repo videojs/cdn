@@ -1,5 +1,5 @@
 /**
- * Additionl video.js configuration specifically for the CDN version
+ * Additional video.js configuration specifically for the CDN version
  */
 ;(function(window){
   var videojs = window && window.videojs;
